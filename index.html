@@ -125,7 +125,7 @@
     .socials {
       display: flex;
       gap: 1.1rem;
-      margin-bottom: 2.4rem;
+      margin-bottom: 1.2rem;
     }
     .socials a {
       display: flex; align-items: center; justify-content: center;
@@ -159,13 +159,13 @@
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 2.1rem;
       font-weight: 700;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.75rem;
       letter-spacing: -0.01em;
     }
     .section-sub {
       color: var(--muted);
       font-size: 0.87rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     /* CARDS — shared by pub + experience */
@@ -309,7 +309,7 @@
 
     .resume-download {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-bottom: 1.8rem; padding: 0.6rem 1.2rem; border-radius: 9px;
+      margin-bottom: 2.5rem; padding: 0.6rem 1.2rem; border-radius: 9px;
       background: rgba(77,157,224,0.1); border: 1px solid rgba(77,157,224,0.28);
       color: var(--accent); font-size: 0.85rem; text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
@@ -317,7 +317,7 @@
     .resume-download:hover { background: rgba(77,157,224,0.18); border-color: rgba(77,157,224,0.45); }
 
     /* AWARDS */
-    .award-tier { margin-bottom: 2rem; }
+    .award-tier { margin-bottom: 2rem; margin-top: 0.5rem; }
     .award-tier-label {
       font-size: 0.69rem; font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -383,7 +383,9 @@
         </a>
       </div>
       <div class="meta">
+        <div class="meta-row"></div>
         <div class="meta-row">
+        
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="clock"></span>
         </div>
@@ -460,7 +462,6 @@
         <a href="#" onclick="showPage('awards', this)">Awards</a>
       </nav>
       <div class="section-title">Resume</div>
-      <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
       <a class="resume-download" href="resume.pdf" target="_blank">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
         Download PDF
