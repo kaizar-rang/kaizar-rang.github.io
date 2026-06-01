@@ -38,28 +38,24 @@
       z-index: 0;
     }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+    /* NAV — inline above the name, not fixed */
+    .site-nav {
       display: flex;
       align-items: center;
-      gap: 2.5rem;
-      padding: 1.4rem 3rem;
-      z-index: 100;
-      background: linear-gradient(to bottom, rgba(9,14,24,0.97), transparent);
+      gap: 2rem;
+      margin-bottom: 1.6rem;
     }
 
-    nav a {
+    .site-nav a {
       text-decoration: none;
-
+      font-size: 0.88rem;
       font-weight: 400;
       letter-spacing: 0.02em;
       color: var(--muted);
       transition: color 0.2s;
     }
-    nav a.active, nav a:hover { color: var(--fg); }
-    nav a.active { font-weight: 500; }
+    .site-nav a.active, .site-nav a:hover { color: var(--fg); }
+    .site-nav a.active { font-weight: 600; color: var(--fg); }
 
     /* HOME */
     main {
@@ -69,11 +65,10 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 0 3rem;
-      padding-top: 5rem;
+      padding: 0 3.5rem;
     }
 
-    .hero { max-width: 800px; animation: fadeUp 0.7s ease both; }
+    .hero { max-width: 900px; animation: fadeUp 0.7s ease both; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -86,6 +81,7 @@
       font-size: clamp(3.5rem, 8vw, 6.5rem);
       line-height: 1;
       letter-spacing: -0.02em;
+      white-space: nowrap;
       margin-bottom: 1.1rem;
       background: linear-gradient(135deg, #ffffff 35%, #4d9de0 100%);
       -webkit-background-clip: text;
@@ -147,7 +143,11 @@
 
     .section-wrap {
       max-width: 760px;
-      padding: 7rem 3rem 4rem;
+      padding: 0 3.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       animation: fadeUp 0.5s ease both;
     }
 
@@ -231,16 +231,15 @@
 </head>
 <body>
 
-<nav>
-  <a href="#" class="active" onclick="showPage('home', this)">Home</a>
-  <a href="#" onclick="showPage('publications', this)">Publications</a>
-  <a href="#" onclick="showPage('resume', this)">Resume</a>
-</nav>
-
 <!-- HOME -->
 <div id="page-home" class="page active">
   <main>
     <div class="hero">
+      <nav class="site-nav">
+        <a href="#" class="active" onclick="showPage('home', this)">Home</a>
+        <a href="#" onclick="showPage('publications', this)">Publications</a>
+        <a href="#" onclick="showPage('resume', this)">Resume</a>
+      </nav>
       <h1>Kaizar Rangwala</h1>
       <p class="tagline">
         Hey! I'm <strong>Kaizar</strong>, a CS + Premed student at <strong>UC Berkeley</strong>
@@ -282,6 +281,11 @@
 <!-- PUBLICATIONS -->
 <div id="page-publications" class="page">
   <div class="section-wrap">
+    <nav class="site-nav" style="margin-bottom:2rem">
+      <a href="#" onclick="showPage('home', this)">Home</a>
+      <a href="#" class="active" onclick="showPage('publications', this)">Publications</a>
+      <a href="#" onclick="showPage('resume', this)">Resume</a>
+    </nav>
     <div class="section-title">Publications</div>
     <div class="section-sub">Featured research in clinical ML, neuroimaging, and biomedical AI.</div>
 
@@ -321,6 +325,11 @@
 <!-- RESUME -->
 <div id="page-resume" class="page">
   <div class="section-wrap">
+    <nav class="site-nav" style="margin-bottom:2rem">
+      <a href="#" onclick="showPage('home', this)">Home</a>
+      <a href="#" onclick="showPage('publications', this)">Publications</a>
+      <a href="#" class="active" onclick="showPage('resume', this)">Resume</a>
+    </nav>
     <div class="section-title">Resume</div>
     <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
 
@@ -398,9 +407,14 @@
   function showPage(name, el) {
     event.preventDefault();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.querySelectorAll('.site-nav a').forEach(a => a.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
-    el.classList.add('active');
+    // mark matching links in all navs
+    document.querySelectorAll('.site-nav a').forEach(a => {
+      if (a.getAttribute('onclick') && a.getAttribute('onclick').includes("'" + name + "'")) {
+        a.classList.add('active');
+      }
+    });
   }
 
   // --- CLOCK (EDT = UTC-4) ---
