@@ -38,16 +38,27 @@
       z-index: 0;
     }
 
-    /* ALL PAGES — same centered layout */
+    /* ALL PAGES — shared wrapper */
     .page-wrap {
       position: relative;
       z-index: 1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       padding: 0 3.5rem;
+    }
+
+    /* Home: vertically centered */
+    #page-home .page-wrap {
+      justify-content: center;
+    }
+
+    /* Other pages: fixed top padding so nav sits at same height as on home */
+    #page-publications .page-wrap,
+    #page-resume .page-wrap {
+      padding-top: calc(50vh - 200px);
+      justify-content: flex-start;
     }
 
     .page-content {
