@@ -147,7 +147,7 @@
     .meta { display: flex; flex-direction: column; gap: 0.5rem; }
     .meta-row {
       display: flex; align-items: center; gap: 0.6rem;
-      font-size: 0.87rem; color: var(--muted);
+      font-size: 1rem; color: var(--fg);
     }
     .meta-row svg { width: 15px; height: 15px; opacity: 0.55; flex-shrink: 0; }
 
@@ -176,12 +176,23 @@
       padding: 1.4rem 1.6rem;
       margin-bottom: 1rem;
       transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
+      pointer-events: none;
+      border-radius: 14px 14px 0 0;
     }
     .card:hover {
       border-color: rgba(77,157,224,0.28);
       background: rgba(77,157,224,0.04);
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
     }
 
     /* PUB SPLIT LAYOUT */
@@ -255,12 +266,23 @@
       padding: 1.2rem 1.4rem;
       margin-bottom: 0.85rem;
       transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
+      pointer-events: none;
+      border-radius: 12px 12px 0 0;
     }
     .exp-card:hover {
       border-color: rgba(77,157,224,0.22);
       background: rgba(77,157,224,0.03);
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
     }
     .exp-header {
       display: flex; justify-content: space-between; align-items: baseline;
@@ -438,6 +460,7 @@
         <a href="#" onclick="showPage('awards', this)">Awards</a>
       </nav>
       <div class="section-title">Resume</div>
+      <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
       <a class="resume-download" href="resume.pdf" target="_blank">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
         Download PDF
