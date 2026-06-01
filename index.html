@@ -1,1 +1,475 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaizar Rangwala</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #090e18;
+      --bg2:     #0e1520;
+      --fg:      #dde6f5;
+      --muted:   #8a9bbf;
+      --accent:  #4d9de0;
+      --accent2: #7ec8f7;
+      --border:  rgba(255,255,255,0.06);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -220px; left: -180px;
+      width: 750px; height: 750px;
+      background: radial-gradient(circle, rgba(77,157,224,0.07) 0%, transparent 68%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 1.4rem 3rem;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(9,14,24,0.97), transparent);
+    }
+
+    nav a {
+      text-decoration: none;
+
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    nav a.active, nav a:hover { color: var(--fg); }
+    nav a.active { font-weight: 500; }
+
+    /* HOME */
+    main {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 3rem;
+      padding-top: 5rem;
+    }
+
+    .hero { max-width: 800px; animation: fadeUp 0.7s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.1rem;
+      background: linear-gradient(135deg, #ffffff 35%, #4d9de0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+    .tagline strong { color: var(--muted); font-weight: 700; }
+
+    /* SOCIALS */
+    .socials {
+      display: flex;
+      gap: 1.1rem;
+      margin-bottom: 2.4rem;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+    .socials a {
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .socials a:hover {
+      color: var(--fg);
+      border-color: rgba(77,157,224,0.35);
+      background: rgba(77,157,224,0.08);
+    }
+    .socials svg { width: 17px; height: 17px; fill: currentColor; }
+
+    /* META (clock + weather) */
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+    .meta-row {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.87rem;
+      color: var(--muted);
+    }
+    .meta-row svg { width: 15px; height: 15px; opacity: 0.55; flex-shrink: 0; }
+
+    /* PAGE SECTIONS */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .section-wrap {
+      max-width: 760px;
+      padding: 7rem 3rem 4rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .section-title {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.87rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* PUB CARDS */
+    .pub-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .pub-card:hover {
+      border-color: rgba(77,157,224,0.28);
+      background: rgba(77,157,224,0.04);
+    }
+    .pub-venue {
+      font-size: 0.71rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.4rem;
+    }
+    .pub-title {
+      font-size: 0.96rem; font-weight: 500;
+      color: var(--fg); margin-bottom: 0.3rem; line-height: 1.45;
+    }
+    .pub-authors { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .pub-authors strong { color: var(--fg); font-weight: 500; }
+    .pub-links { display: flex; gap: 0.6rem; margin-top: 0.8rem; }
+    .pub-link {
+      font-size: 0.74rem; padding: 0.25rem 0.65rem;
+      border-radius: 6px; border: 1px solid var(--border);
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .pub-link:hover { color: var(--fg); border-color: rgba(255,255,255,0.18); }
+
+    /* RESUME */
+    .resume-section { margin-bottom: 2.2rem; }
+    .resume-heading {
+      font-size: 0.69rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.9rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+    }
+    .resume-item { margin-bottom: 1.2rem; }
+    .resume-item-header {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;
+    }
+    .resume-item-title { font-size: 0.95rem; font-weight: 500; color: var(--fg); }
+    .resume-item-date { font-size: 0.78rem; color: var(--muted); white-space: nowrap; margin-left: 1rem; }
+    .resume-item-sub { font-size: 0.82rem; color: var(--accent2); margin-bottom: 0.3rem; }
+    .resume-item-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .tag {
+      font-size: 0.71rem; padding: 0.2rem 0.55rem; border-radius: 5px;
+      background: rgba(77,157,224,0.09); color: var(--accent);
+      border: 1px solid rgba(77,157,224,0.18);
+    }
+    .resume-download {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem; padding: 0.6rem 1.2rem; border-radius: 9px;
+      background: rgba(77,157,224,0.1); border: 1px solid rgba(77,157,224,0.28);
+      color: var(--accent); font-size: 0.85rem; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .resume-download:hover { background: rgba(77,157,224,0.18); border-color: rgba(77,157,224,0.45); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="active" onclick="showPage('home', this)">Home</a>
+  <a href="#" onclick="showPage('publications', this)">Publications</a>
+  <a href="#" onclick="showPage('resume', this)">Resume</a>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <main>
+    <div class="hero">
+      <h1>Kaizar Rangwala</h1>
+      <p class="tagline">
+        Hey! I'm <strong>Kaizar</strong>, a CS + Premed student at <strong>UC Berkeley</strong>
+        working on clinical ML — EEG, radiomics, and biomedical knowledge graphs.
+        EMT. Researcher at <strong>Stanford/CDAC</strong>, <strong>UCSF</strong>, and <strong>AWS</strong>.
+      </p>
+
+      <div class="socials">
+        <a href="https://github.com/kaizar-rang" target="_blank" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 .3C5.37.3 0 5.67 0 12.3c0 5.3 3.44 9.8 8.2 11.38.6.1.83-.26.83-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.68.82.57C20.56 22.1 24 17.6 24 12.3 24 5.67 18.63.3 12 .3z"/></svg>
+        </a>
+        <a href="#" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <a href="mailto:kaizarr@stanford.edu" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a href="#" title="Google Scholar">
+          <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/></svg>
+        </a>
+      </div>
+
+      <div class="meta">
+        <div class="meta-row">
+          <!-- clock icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span id="clock"></span>
+        </div>
+        <div class="meta-row">
+          <!-- weather icon (changes dynamically) -->
+          <svg id="weather-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span id="weather">Fetching weather...</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- PUBLICATIONS -->
+<div id="page-publications" class="page">
+  <div class="section-wrap">
+    <div class="section-title">Publications</div>
+    <div class="section-sub">Featured research in clinical ML, neuroimaging, and biomedical AI.</div>
+
+    <div class="pub-card">
+      <div class="pub-venue">Conference / Journal · 2025</div>
+      <div class="pub-title">Your Paper Title Here — EEG-Based Seizure Detection with Temporal Convolutional Networks</div>
+      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Co-author Name, M. Brandon Westover</div>
+      <div class="pub-links">
+        <a class="pub-link" href="#">Paper</a>
+        <a class="pub-link" href="#">Code</a>
+        <a class="pub-link" href="#">Poster</a>
+      </div>
+    </div>
+
+    <div class="pub-card">
+      <div class="pub-venue">Conference / Journal · 2024</div>
+      <div class="pub-title">Radiomics-Based Classification of Glioma Subtypes via Knowledge Graph Embedding</div>
+      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, UCSF Baranzini Lab, Co-author Name</div>
+      <div class="pub-links">
+        <a class="pub-link" href="#">Paper</a>
+        <a class="pub-link" href="#">Code</a>
+      </div>
+    </div>
+
+    <div class="pub-card">
+      <div class="pub-venue">Preprint · 2024</div>
+      <div class="pub-title">Cross-Domain Skin Lesion Classification Using Patch-Based CNNs and Domain Adaptation</div>
+      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Yang Lab, UC Berkeley</div>
+      <div class="pub-links">
+        <a class="pub-link" href="#">arXiv</a>
+        <a class="pub-link" href="#">Code</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME -->
+<div id="page-resume" class="page">
+  <div class="section-wrap">
+    <div class="section-title">Resume</div>
+    <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
+
+    <a class="resume-download" href="resume.pdf" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
+      Download PDF
+    </a><br><br>
+
+    <div class="resume-section">
+      <div class="resume-heading">Education</div>
+      <div class="resume-item">
+        <div class="resume-item-header">
+          <div class="resume-item-title">University of California, Berkeley</div>
+          <div class="resume-item-date">2023 – 2027</div>
+        </div>
+        <div class="resume-item-sub">B.S. Computer Science · Minors: Public Health, Bioengineering</div>
+        <div class="resume-item-desc">GPA: 3.8+ · Premed track · Certified EMT</div>
+      </div>
+    </div>
+
+    <div class="resume-section">
+      <div class="resume-heading">Research Experience</div>
+      <div class="resume-item">
+        <div class="resume-item-header">
+          <div class="resume-item-title">Stanford / CDAC — Research Intern</div>
+          <div class="resume-item-date">2025 – Present</div>
+        </div>
+        <div class="resume-item-sub">PI: Dr. M. Brandon Westover</div>
+        <div class="resume-item-desc">Clinical ML on EEG data — epilepsy, delirium, sleep, and cardiac arrest.</div>
+        <div class="tag-list"><span class="tag">EEG</span><span class="tag">PyTorch</span><span class="tag">Clinical ML</span><span class="tag">Epilepsy</span></div>
+      </div>
+      <div class="resume-item">
+        <div class="resume-item-header">
+          <div class="resume-item-title">UCSF — Baranzini Lab</div>
+          <div class="resume-item-date">2024 – 2025</div>
+        </div>
+        <div class="resume-item-sub">Radiomics & Knowledge Graphs</div>
+        <div class="resume-item-desc">Biomedical knowledge graph pipelines using SPOKE. Radiomics for clinical neuroimaging classification.</div>
+        <div class="tag-list"><span class="tag">Knowledge Graphs</span><span class="tag">Radiomics</span><span class="tag">SPOKE</span><span class="tag">NLP</span></div>
+      </div>
+      <div class="resume-item">
+        <div class="resume-item-header">
+          <div class="resume-item-title">AWS — Research Affiliate</div>
+          <div class="resume-item-date">2024</div>
+        </div>
+        <div class="resume-item-sub">Scientific ML</div>
+        <div class="resume-item-desc">Applied ML research at Amazon Web Services.</div>
+        <div class="tag-list"><span class="tag">AWS</span><span class="tag">Scientific ML</span></div>
+      </div>
+      <div class="resume-item">
+        <div class="resume-item-header">
+          <div class="resume-item-title">Duke University — Research</div>
+          <div class="resume-item-date">2023 – 2024</div>
+        </div>
+        <div class="resume-item-sub">Neurosurgery ML</div>
+        <div class="resume-item-desc">Published work in ML applied to neurosurgical outcomes and neuroimaging.</div>
+        <div class="tag-list"><span class="tag">Neurosurgery</span><span class="tag">Computer Vision</span></div>
+      </div>
+    </div>
+
+    <div class="resume-section">
+      <div class="resume-heading">Skills</div>
+      <div class="tag-list">
+        <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">scikit-learn</span>
+        <span class="tag">Java</span><span class="tag">spaCy</span><span class="tag">YOLOv5</span>
+        <span class="tag">FHIR</span><span class="tag">SQL</span><span class="tag">Git</span>
+        <span class="tag">EMT Certified</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- NAV ---
+  function showPage(name, el) {
+    event.preventDefault();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    el.classList.add('active');
+  }
+
+  // --- CLOCK (EDT = UTC-4) ---
+  function updateClock() {
+    const now = new Date();
+    const opts = {
+      timeZone: 'America/New_York',
+      weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    };
+    const str = now.toLocaleString('en-US', opts);
+    const tzAbbr = now.toLocaleString('en-US', { timeZone: 'America/New_York', timeZoneName: 'short' }).split(' ').pop();
+    document.getElementById('clock').textContent = str + ' ' + tzAbbr;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // --- WEATHER (Boston, hardcoded coords) ---
+  const WMO = {
+    0:'Clear sky', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
+    45:'Foggy', 48:'Icy fog',
+    51:'Light drizzle', 53:'Drizzle', 55:'Heavy drizzle',
+    61:'Light rain', 63:'Rain', 65:'Heavy rain',
+    71:'Light snow', 73:'Snow', 75:'Heavy snow', 77:'Snow grains',
+    80:'Light showers', 81:'Showers', 82:'Heavy showers',
+    85:'Snow showers', 86:'Heavy snow showers',
+    95:'Thunderstorm', 96:'Thunderstorm w/ hail', 99:'Thunderstorm w/ heavy hail',
+  };
+
+  const CLOUD_SVG = `<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>`;
+  const RAIN_SVG  = `<line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/><line x1="16" y1="13" x2="16" y2="15"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="12" y1="15" x2="12" y2="17"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>`;
+  const SNOW_SVG  = `<path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8" y2="21"/><line x1="8" y1="21" x2="6" y2="19"/><line x1="8" y1="21" x2="10" y2="19"/><line x1="12" y1="18" x2="12" y2="23"/><line x1="12" y1="23" x2="10" y2="21"/><line x1="12" y1="23" x2="14" y2="21"/><line x1="16" y1="16" x2="16" y2="21"/><line x1="16" y1="21" x2="14" y2="19"/><line x1="16" y1="21" x2="18" y2="19"/>`;
+  const STORM_SVG = `<path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/>`;
+
+  function getWeatherIcon(code) {
+    if (code === 0 || code === 1) return null;
+    if (code <= 3 || code === 45 || code === 48) return CLOUD_SVG;
+    if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return SNOW_SVG;
+    if (code >= 95) return STORM_SVG;
+    return RAIN_SVG;
+  }
+
+  async function fetchBostonWeather() {
+    const urls = [
+      'https://api.open-meteo.com/v1/forecast?latitude=42.3601&longitude=-71.0589&current_weather=true&temperature_unit=fahrenheit',
+      'https://api.open-meteo.com/v1/forecast?latitude=42.3601&longitude=-71.0589&current_weather=true&temperature_unit=fahrenheit&timezone=America%2FNew_York'
+    ];
+    try {
+      const res = await fetch(urls[0]);
+      if (!res.ok) throw new Error('bad response');
+      const w = await res.json();
+      const temp = Math.round(w.current_weather.temperature);
+      const code = w.current_weather.weathercode;
+      const desc = WMO[code] ?? 'Unknown';
+      document.getElementById('weather').textContent = `${temp}°F · ${desc} in Boston`;
+      const iconPath = getWeatherIcon(code);
+      if (iconPath) document.getElementById('weather-icon').innerHTML = iconPath;
+    } catch(e) {
+      // fallback: wttr.in plain text
+      try {
+        const r2 = await fetch('https://wttr.in/Boston?format=%t+%C&u');
+        const txt = await r2.text();
+        document.getElementById('weather').textContent = txt.trim() + ' in Boston';
+      } catch {
+        document.getElementById('weather').textContent = 'Weather unavailable';
+      }
+    }
+  }
+  fetchBostonWeather();
+</script>
+</body>
+</html>
