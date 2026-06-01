@@ -175,12 +175,40 @@
       border-radius: 14px;
       padding: 1.4rem 1.6rem;
       margin-bottom: 1rem;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .card:hover {
       border-color: rgba(77,157,224,0.28);
       background: rgba(77,157,224,0.04);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
+
+    /* PUB SPLIT LAYOUT */
+    .pub-split {
+      display: flex;
+      padding: 0;
+      overflow: hidden;
+      min-height: 160px;
+    }
+    .pub-left {
+      flex: 1;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+    .pub-right {
+      width: 38%;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      border-radius: 0 14px 14px 0;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .pub-split:hover .pub-right { opacity: 0.9; }
 
     /* PUB CARDS */
     .pub-venue {
@@ -226,11 +254,13 @@
       border-radius: 12px;
       padding: 1.2rem 1.4rem;
       margin-bottom: 0.85rem;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .exp-card:hover {
       border-color: rgba(77,157,224,0.22);
       background: rgba(77,157,224,0.03);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
     .exp-header {
       display: flex; justify-content: space-between; align-items: baseline;
@@ -357,34 +387,40 @@
       <div class="section-title">Featured Publications &amp; Conference Proceedings</div>
       <div class="section-sub">Peer-reviewed work in scientific ML, neuroimaging, and clinical AI.</div>
 
-      <div class="card">
-        <div class="pub-venue">
-          <span class="pub-badge">Journal of Neurosurgery</span>
-          <span class="pub-badge">North American Skull Base Society</span>
-          <span class="pub-venue-dot">·</span>
-          <span>2025</span>
+      <div class="card pub-split">
+        <div class="pub-left">
+          <div class="pub-venue">
+            <span class="pub-badge">Journal of Neurosurgery</span>
+            <span class="pub-badge">North American Skull Base Society</span>
+            <span class="pub-venue-dot">·</span>
+            <span>2025</span>
+          </div>
+          <div class="pub-title">ML with Radiomics To Predict WHO Pathologic Grade of Meningioma from Preoperative MRI</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+            <a class="pub-link" href="#">Poster</a>
+          </div>
         </div>
-        <div class="pub-title">ML with Radiomics To Predict WHO Pathologic Grade of Meningioma from Preoperative MRI</div>
-        <div class="pub-links">
-          <a class="pub-link" href="#">Paper</a>
-          <a class="pub-link" href="#">Code</a>
-          <a class="pub-link" href="#">Poster</a>
-        </div>
+        <div class="pub-right" style="background-image: url('mri.jpg')"></div>
       </div>
 
-      <div class="card">
-        <div class="pub-venue">
-          <span class="pub-badge">IEEE Xplore</span>
-          <span class="pub-badge">MIT Undergraduate Research Technology Conference</span>
-          <span class="pub-venue-dot">·</span>
-          <span>2024</span>
+      <div class="card pub-split">
+        <div class="pub-left">
+          <div class="pub-venue">
+            <span class="pub-badge">IEEE Xplore</span>
+            <span class="pub-badge">MIT URTC</span>
+            <span class="pub-venue-dot">·</span>
+            <span>2024</span>
+          </div>
+          <div class="pub-title">Enhanced Modeling of Harmful Algal Bloom (HAB) Growth Using Scientific Machine Learning</div>
+          <div class="pub-links">
+            <a class="pub-link" href="#">Paper</a>
+            <a class="pub-link" href="#">Code</a>
+            <a class="pub-link" href="#">Poster</a>
+          </div>
         </div>
-        <div class="pub-title">Enhanced Modeling of Harmful Algal Bloom (HAB) Growth Using Scientific Machine Learning</div>
-        <div class="pub-links">
-          <a class="pub-link" href="#">Paper</a>
-          <a class="pub-link" href="#">Code</a>
-          <a class="pub-link" href="#">Poster</a>
-        </div>
+        <div class="pub-right" style="background-image: url('hab.jpg')"></div>
       </div>
 
     </div>
@@ -402,6 +438,7 @@
         <a href="#" onclick="showPage('awards', this)">Awards</a>
       </nav>
       <div class="section-title">Resume</div>
+      <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
       <a class="resume-download" href="resume.pdf" target="_blank">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
         Download PDF
