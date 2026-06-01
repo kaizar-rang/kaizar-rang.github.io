@@ -122,8 +122,8 @@
     .tagline strong { color: var(--muted); font-weight: 700; }
 
     .headshot {
-      width: 135px;
-      height: 135px;
+      width: 160px;
+      height: 160px;
       border-radius: 12px;
       object-fit: cover;
       object-position: center top;
@@ -236,6 +236,14 @@
     .resume-item-sub { font-size: 0.82rem; color: var(--accent2); margin-bottom: 0.3rem; }
     .resume-item-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
     .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .skill-category { margin-bottom: 1rem; }
+    .skill-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--fg);
+      margin-bottom: 0.4rem;
+    }
     .tag {
       font-size: 0.71rem; padding: 0.2rem 0.55rem; border-radius: 5px;
       background: rgba(77,157,224,0.09); color: var(--accent);
@@ -370,48 +378,46 @@
         <div class="resume-heading">Research Experience</div>
         <div class="resume-item">
           <div class="resume-item-header">
-            <div class="resume-item-title">Stanford / CDAC — Research Intern</div>
-            <div class="resume-item-date">2025 – Present</div>
+            <div class="resume-item-title">Neurology AI Research — CDAC</div>
+            <div class="resume-item-date">May 2026 – Present</div>
           </div>
-          <div class="resume-item-sub">PI: Dr. M. Brandon Westover</div>
-          <div class="resume-item-desc">Clinical ML on EEG data — epilepsy, delirium, sleep, and cardiac arrest.</div>
-          <div class="tag-list"><span class="tag">EEG</span><span class="tag">PyTorch</span><span class="tag">Clinical ML</span><span class="tag">Epilepsy</span></div>
+          <div class="resume-item-sub">Stanford University</div>
+          <div class="resume-item-desc">LLM guided surgical decision-making in epilepsy treatment.</div>
         </div>
         <div class="resume-item">
           <div class="resume-item-header">
-            <div class="resume-item-title">UCSF — Baranzini Lab</div>
-            <div class="resume-item-date">2024 – 2025</div>
+            <div class="resume-item-title">Machine Learning Engineer</div>
+            <div class="resume-item-date">Sep 2025 – Dec 2025</div>
           </div>
-          <div class="resume-item-sub">Radiomics & Knowledge Graphs</div>
-          <div class="resume-item-desc">Biomedical knowledge graph pipelines using SPOKE. Radiomics for clinical neuroimaging classification.</div>
-          <div class="tag-list"><span class="tag">Knowledge Graphs</span><span class="tag">Radiomics</span><span class="tag">SPOKE</span><span class="tag">NLP</span></div>
+          <div class="resume-item-sub">Amazon Web Services (AWS)</div>
+          <div class="resume-item-desc">Simulating novel ML research on AWS Trainium.</div>
         </div>
         <div class="resume-item">
           <div class="resume-item-header">
-            <div class="resume-item-title">AWS — Research Affiliate</div>
-            <div class="resume-item-date">2024</div>
+            <div class="resume-item-title">Neurosurgery AI Research — Duke NSU</div>
+            <div class="resume-item-date">May 2024 – May 2025</div>
           </div>
-          <div class="resume-item-sub">Scientific ML</div>
-          <div class="resume-item-desc">Applied ML research at Amazon Web Services.</div>
-          <div class="tag-list"><span class="tag">AWS</span><span class="tag">Scientific ML</span></div>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header">
-            <div class="resume-item-title">Duke University — Research</div>
-            <div class="resume-item-date">2023 – 2024</div>
-          </div>
-          <div class="resume-item-sub">Neurosurgery ML</div>
-          <div class="resume-item-desc">Published work in ML applied to neurosurgical outcomes and neuroimaging.</div>
-          <div class="tag-list"><span class="tag">Neurosurgery</span><span class="tag">Computer Vision</span></div>
+          <div class="resume-item-sub">Duke University School of Medicine</div>
+          <div class="resume-item-desc">ML analysis of brain tumor radiomics & topology.</div>
         </div>
       </div>
       <div class="resume-section">
         <div class="resume-heading">Skills</div>
-        <div class="tag-list">
-          <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">scikit-learn</span>
-          <span class="tag">Java</span><span class="tag">spaCy</span><span class="tag">YOLOv5</span>
-          <span class="tag">FHIR</span><span class="tag">SQL</span><span class="tag">Git</span>
-          <span class="tag">EMT Certified</span>
+        <div class="skill-category">
+          <span class="skill-label">Programming Languages</span>
+          <div class="tag-list"><span class="tag">Python</span><span class="tag">Java</span><span class="tag">SQL</span><span class="tag">Julia</span><span class="tag">Scheme</span></div>
+        </div>
+        <div class="skill-category">
+          <span class="skill-label">Machine Learning</span>
+          <div class="tag-list"><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">OpenCV</span><span class="tag">Scikit-learn</span><span class="tag">PyTorch</span><span class="tag">PyRadiomics</span><span class="tag">TensorFlow</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span></div>
+        </div>
+        <div class="skill-category">
+          <span class="skill-label">Software Engineering</span>
+          <div class="tag-list"><span class="tag">OOP</span><span class="tag">AWS</span><span class="tag">Git</span><span class="tag">Flask</span><span class="tag">Selenium</span><span class="tag">REST APIs</span><span class="tag">Bootstrap</span></div>
+        </div>
+        <div class="skill-category">
+          <span class="skill-label">Clinical Certifications</span>
+          <div class="tag-list"><span class="tag">EMT-B</span><span class="tag">Bloodborne Pathogen Management</span><span class="tag">Nebulizer</span><span class="tag">Naloxone</span><span class="tag">CPR</span><span class="tag">Glucometer</span></div>
         </div>
       </div>
     </div>
