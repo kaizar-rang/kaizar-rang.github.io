@@ -38,7 +38,25 @@
       z-index: 0;
     }
 
-    /* NAV — inline above the name, not fixed */
+    /* ALL PAGES — same centered layout */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 3.5rem;
+    }
+
+    .page-content {
+      max-width: 900px;
+      width: 100%;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    /* NAV — always above content, same position */
     .site-nav {
       display: flex;
       align-items: center;
@@ -56,20 +74,6 @@
     }
     .site-nav a.active, .site-nav a:hover { color: var(--fg); }
     .site-nav a.active { font-weight: 600; color: var(--fg); }
-
-    /* HOME */
-    main {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 0 3.5rem;
-    }
-
-    .hero { max-width: 900px; width: 100%; animation: fadeUp 0.7s ease both; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -138,18 +142,6 @@
     /* PAGE SECTIONS */
     .page { display: none; }
     .page.active { display: block; }
-
-    .section-wrap {
-      max-width: 760px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 3.5rem;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      animation: fadeUp 0.5s ease both;
-    }
 
     .section-title {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -230,23 +222,19 @@
   </style>
 </head>
 <body>
+<body>
 
 <!-- HOME -->
 <div id="page-home" class="page active">
-  <main>
-    <div class="hero">
+  <div class="page-wrap">
+    <div class="page-content">
       <nav class="site-nav">
         <a href="#" class="active" onclick="showPage('home', this)">Home</a>
         <a href="#" onclick="showPage('publications', this)">Publications</a>
         <a href="#" onclick="showPage('resume', this)">Resume</a>
       </nav>
       <h1>Kaizar Rangwala</h1>
-      <p class="tagline">
-        Hey! I'm <strong>Kaizar</strong>, a CS + Premed student at <strong>UC Berkeley</strong>
-        working on clinical ML — EEG, radiomics, and biomedical knowledge graphs.
-        EMT. Researcher at <strong>Stanford/CDAC</strong>, <strong>UCSF</strong>, and <strong>AWS</strong>.
-      </p>
-
+      <p class="tagline">I am a CS &amp; Pre-Med student at <strong>UC Berkeley</strong> interested in Clinical ML.</p>
       <div class="socials">
         <a href="https://github.com/kaizar-rang" target="_blank" title="GitHub">
           <svg viewBox="0 0 24 24"><path d="M12 .3C5.37.3 0 5.67 0 12.3c0 5.3 3.44 9.8 8.2 11.38.6.1.83-.26.83-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.68.82.57C20.56 22.1 24 17.6 24 12.3 24 5.67 18.63.3 12 .3z"/></svg>
@@ -261,62 +249,58 @@
           <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/></svg>
         </a>
       </div>
-
       <div class="meta">
         <div class="meta-row">
-          <!-- clock icon -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="clock"></span>
         </div>
         <div class="meta-row">
-          <!-- weather icon (changes dynamically) -->
           <svg id="weather-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <span id="weather">Fetching weather...</span>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>
 
 <!-- PUBLICATIONS -->
 <div id="page-publications" class="page">
-  <div class="section-wrap">
-    <nav class="site-nav" style="margin-bottom:2rem">
-      <a href="#" onclick="showPage('home', this)">Home</a>
-      <a href="#" class="active" onclick="showPage('publications', this)">Publications</a>
-      <a href="#" onclick="showPage('resume', this)">Resume</a>
-    </nav>
-    <div class="section-title">Publications</div>
-    <div class="section-sub">Featured research in clinical ML, neuroimaging, and biomedical AI.</div>
-
-    <div class="pub-card">
-      <div class="pub-venue">Conference / Journal · 2025</div>
-      <div class="pub-title">Your Paper Title Here — EEG-Based Seizure Detection with Temporal Convolutional Networks</div>
-      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Co-author Name, M. Brandon Westover</div>
-      <div class="pub-links">
-        <a class="pub-link" href="#">Paper</a>
-        <a class="pub-link" href="#">Code</a>
-        <a class="pub-link" href="#">Poster</a>
+  <div class="page-wrap">
+    <div class="page-content">
+      <nav class="site-nav">
+        <a href="#" onclick="showPage('home', this)">Home</a>
+        <a href="#" class="active" onclick="showPage('publications', this)">Publications</a>
+        <a href="#" onclick="showPage('resume', this)">Resume</a>
+      </nav>
+      <div class="section-title">Publications</div>
+      <div class="section-sub">Featured research in clinical ML, neuroimaging, and biomedical AI.</div>
+      <div class="pub-card">
+        <div class="pub-venue">Conference / Journal · 2025</div>
+        <div class="pub-title">Your Paper Title Here — EEG-Based Seizure Detection with Temporal Convolutional Networks</div>
+        <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Co-author Name, M. Brandon Westover</div>
+        <div class="pub-links">
+          <a class="pub-link" href="#">Paper</a>
+          <a class="pub-link" href="#">Code</a>
+          <a class="pub-link" href="#">Poster</a>
+        </div>
       </div>
-    </div>
-
-    <div class="pub-card">
-      <div class="pub-venue">Conference / Journal · 2024</div>
-      <div class="pub-title">Radiomics-Based Classification of Glioma Subtypes via Knowledge Graph Embedding</div>
-      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, UCSF Baranzini Lab, Co-author Name</div>
-      <div class="pub-links">
-        <a class="pub-link" href="#">Paper</a>
-        <a class="pub-link" href="#">Code</a>
+      <div class="pub-card">
+        <div class="pub-venue">Conference / Journal · 2024</div>
+        <div class="pub-title">Radiomics-Based Classification of Glioma Subtypes via Knowledge Graph Embedding</div>
+        <div class="pub-authors"><strong>Kaizar Rangwala</strong>, UCSF Baranzini Lab, Co-author Name</div>
+        <div class="pub-links">
+          <a class="pub-link" href="#">Paper</a>
+          <a class="pub-link" href="#">Code</a>
+        </div>
       </div>
-    </div>
-
-    <div class="pub-card">
-      <div class="pub-venue">Preprint · 2024</div>
-      <div class="pub-title">Cross-Domain Skin Lesion Classification Using Patch-Based CNNs and Domain Adaptation</div>
-      <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Yang Lab, UC Berkeley</div>
-      <div class="pub-links">
-        <a class="pub-link" href="#">arXiv</a>
-        <a class="pub-link" href="#">Code</a>
+      <div class="pub-card">
+        <div class="pub-venue">Preprint · 2024</div>
+        <div class="pub-title">Cross-Domain Skin Lesion Classification Using Patch-Based CNNs and Domain Adaptation</div>
+        <div class="pub-authors"><strong>Kaizar Rangwala</strong>, Yang Lab, UC Berkeley</div>
+        <div class="pub-links">
+          <a class="pub-link" href="#">arXiv</a>
+          <a class="pub-link" href="#">Code</a>
+        </div>
       </div>
     </div>
   </div>
@@ -324,79 +308,77 @@
 
 <!-- RESUME -->
 <div id="page-resume" class="page">
-  <div class="section-wrap">
-    <nav class="site-nav" style="margin-bottom:2rem">
-      <a href="#" onclick="showPage('home', this)">Home</a>
-      <a href="#" onclick="showPage('publications', this)">Publications</a>
-      <a href="#" class="active" onclick="showPage('resume', this)">Resume</a>
-    </nav>
-    <div class="section-title">Resume</div>
-    <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
-
-    <a class="resume-download" href="resume.pdf" target="_blank">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
-      Download PDF
-    </a><br><br>
-
-    <div class="resume-section">
-      <div class="resume-heading">Education</div>
-      <div class="resume-item">
-        <div class="resume-item-header">
-          <div class="resume-item-title">University of California, Berkeley</div>
-          <div class="resume-item-date">2023 – 2027</div>
+  <div class="page-wrap">
+    <div class="page-content">
+      <nav class="site-nav">
+        <a href="#" onclick="showPage('home', this)">Home</a>
+        <a href="#" onclick="showPage('publications', this)">Publications</a>
+        <a href="#" class="active" onclick="showPage('resume', this)">Resume</a>
+      </nav>
+      <div class="section-title">Resume</div>
+      <div class="section-sub">UC Berkeley · CS + Public Health + Bioengineering · Premed</div>
+      <a class="resume-download" href="resume.pdf" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
+        Download PDF
+      </a><br><br>
+      <div class="resume-section">
+        <div class="resume-heading">Education</div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <div class="resume-item-title">University of California, Berkeley</div>
+            <div class="resume-item-date">2023 – 2027</div>
+          </div>
+          <div class="resume-item-sub">B.S. Computer Science · Minors: Public Health, Bioengineering</div>
+          <div class="resume-item-desc">GPA: 3.8+ · Premed track · Certified EMT</div>
         </div>
-        <div class="resume-item-sub">B.S. Computer Science · Minors: Public Health, Bioengineering</div>
-        <div class="resume-item-desc">GPA: 3.8+ · Premed track · Certified EMT</div>
       </div>
-    </div>
-
-    <div class="resume-section">
-      <div class="resume-heading">Research Experience</div>
-      <div class="resume-item">
-        <div class="resume-item-header">
-          <div class="resume-item-title">Stanford / CDAC — Research Intern</div>
-          <div class="resume-item-date">2025 – Present</div>
+      <div class="resume-section">
+        <div class="resume-heading">Research Experience</div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <div class="resume-item-title">Stanford / CDAC — Research Intern</div>
+            <div class="resume-item-date">2025 – Present</div>
+          </div>
+          <div class="resume-item-sub">PI: Dr. M. Brandon Westover</div>
+          <div class="resume-item-desc">Clinical ML on EEG data — epilepsy, delirium, sleep, and cardiac arrest.</div>
+          <div class="tag-list"><span class="tag">EEG</span><span class="tag">PyTorch</span><span class="tag">Clinical ML</span><span class="tag">Epilepsy</span></div>
         </div>
-        <div class="resume-item-sub">PI: Dr. M. Brandon Westover</div>
-        <div class="resume-item-desc">Clinical ML on EEG data — epilepsy, delirium, sleep, and cardiac arrest.</div>
-        <div class="tag-list"><span class="tag">EEG</span><span class="tag">PyTorch</span><span class="tag">Clinical ML</span><span class="tag">Epilepsy</span></div>
-      </div>
-      <div class="resume-item">
-        <div class="resume-item-header">
-          <div class="resume-item-title">UCSF — Baranzini Lab</div>
-          <div class="resume-item-date">2024 – 2025</div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <div class="resume-item-title">UCSF — Baranzini Lab</div>
+            <div class="resume-item-date">2024 – 2025</div>
+          </div>
+          <div class="resume-item-sub">Radiomics & Knowledge Graphs</div>
+          <div class="resume-item-desc">Biomedical knowledge graph pipelines using SPOKE. Radiomics for clinical neuroimaging classification.</div>
+          <div class="tag-list"><span class="tag">Knowledge Graphs</span><span class="tag">Radiomics</span><span class="tag">SPOKE</span><span class="tag">NLP</span></div>
         </div>
-        <div class="resume-item-sub">Radiomics & Knowledge Graphs</div>
-        <div class="resume-item-desc">Biomedical knowledge graph pipelines using SPOKE. Radiomics for clinical neuroimaging classification.</div>
-        <div class="tag-list"><span class="tag">Knowledge Graphs</span><span class="tag">Radiomics</span><span class="tag">SPOKE</span><span class="tag">NLP</span></div>
-      </div>
-      <div class="resume-item">
-        <div class="resume-item-header">
-          <div class="resume-item-title">AWS — Research Affiliate</div>
-          <div class="resume-item-date">2024</div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <div class="resume-item-title">AWS — Research Affiliate</div>
+            <div class="resume-item-date">2024</div>
+          </div>
+          <div class="resume-item-sub">Scientific ML</div>
+          <div class="resume-item-desc">Applied ML research at Amazon Web Services.</div>
+          <div class="tag-list"><span class="tag">AWS</span><span class="tag">Scientific ML</span></div>
         </div>
-        <div class="resume-item-sub">Scientific ML</div>
-        <div class="resume-item-desc">Applied ML research at Amazon Web Services.</div>
-        <div class="tag-list"><span class="tag">AWS</span><span class="tag">Scientific ML</span></div>
-      </div>
-      <div class="resume-item">
-        <div class="resume-item-header">
-          <div class="resume-item-title">Duke University — Research</div>
-          <div class="resume-item-date">2023 – 2024</div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <div class="resume-item-title">Duke University — Research</div>
+            <div class="resume-item-date">2023 – 2024</div>
+          </div>
+          <div class="resume-item-sub">Neurosurgery ML</div>
+          <div class="resume-item-desc">Published work in ML applied to neurosurgical outcomes and neuroimaging.</div>
+          <div class="tag-list"><span class="tag">Neurosurgery</span><span class="tag">Computer Vision</span></div>
         </div>
-        <div class="resume-item-sub">Neurosurgery ML</div>
-        <div class="resume-item-desc">Published work in ML applied to neurosurgical outcomes and neuroimaging.</div>
-        <div class="tag-list"><span class="tag">Neurosurgery</span><span class="tag">Computer Vision</span></div>
       </div>
-    </div>
-
-    <div class="resume-section">
-      <div class="resume-heading">Skills</div>
-      <div class="tag-list">
-        <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">scikit-learn</span>
-        <span class="tag">Java</span><span class="tag">spaCy</span><span class="tag">YOLOv5</span>
-        <span class="tag">FHIR</span><span class="tag">SQL</span><span class="tag">Git</span>
-        <span class="tag">EMT Certified</span>
+      <div class="resume-section">
+        <div class="resume-heading">Skills</div>
+        <div class="tag-list">
+          <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">scikit-learn</span>
+          <span class="tag">Java</span><span class="tag">spaCy</span><span class="tag">YOLOv5</span>
+          <span class="tag">FHIR</span><span class="tag">SQL</span><span class="tag">Git</span>
+          <span class="tag">EMT Certified</span>
+        </div>
       </div>
     </div>
   </div>
