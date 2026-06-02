@@ -168,7 +168,7 @@
       margin-bottom: 2.5rem;
     }
 
-    /* CARDS — shared by pub + experience */
+    /* CARDS */
     .card {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -176,23 +176,12 @@
       padding: 1.4rem 1.6rem;
       margin-bottom: 1rem;
       transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 50%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
-      pointer-events: none;
-      border-radius: 14px 14px 0 0;
     }
     .card:hover {
       border-color: rgba(77,157,224,0.28);
       background: rgba(77,157,224,0.04);
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
 
     /* PUB SPLIT LAYOUT */
@@ -233,7 +222,6 @@
       font-size: 0.97rem; font-weight: 600;
       color: var(--fg); margin-bottom: 0.35rem; line-height: 1.45;
     }
-    .pub-meta { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; }
     .pub-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
     .pub-link {
       font-size: 0.74rem; padding: 0.28rem 0.7rem;
@@ -258,7 +246,6 @@
       padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
     }
 
-    /* Experience cards — card style but slightly different feel */
     .exp-card {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -266,23 +253,12 @@
       padding: 1.2rem 1.4rem;
       margin-bottom: 0.85rem;
       transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .exp-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 50%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
-      pointer-events: none;
-      border-radius: 12px 12px 0 0;
     }
     .exp-card:hover {
       border-color: rgba(77,157,224,0.22);
       background: rgba(77,157,224,0.03);
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
     }
     .exp-header {
       display: flex; justify-content: space-between; align-items: baseline;
@@ -382,10 +358,8 @@
           <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 10a8 8 0 0 1 7.162 3.44L24 9.5z"/></svg>
         </a>
       </div>
-      <div class="meta">
-        <div class="meta-row"></div>
+      <div class="meta" id="meta-block" style="cursor:pointer;" onclick="toggleCity()">
         <div class="meta-row">
-        
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span id="clock"></span>
         </div>
@@ -555,7 +529,6 @@
       </nav>
       <div class="section-title">Awards &amp; Honors</div>
 
-      <div class="meta-row"></div>
       <div class="award-tier">
         <div class="award-tier-label">High School</div>
         <div class="card">
@@ -623,15 +596,23 @@
     });
   }
 
+  const CITIES = [
+    { name: 'Boston', tz: 'America/New_York', lat: 42.3601, lon: -71.0589 },
+    { name: 'San Francisco', tz: 'America/Los_Angeles', lat: 37.7749, lon: -122.4194 },
+  ];
+  let cityIndex = 0;
+  const weatherCache = {};
+
   function updateClock() {
+    const city = CITIES[cityIndex];
     const now = new Date();
     const opts = {
-      timeZone: 'America/New_York',
+      timeZone: city.tz,
       weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
       hour: '2-digit', minute: '2-digit', second: '2-digit'
     };
     const str = now.toLocaleString('en-US', opts);
-    const tzAbbr = now.toLocaleString('en-US', { timeZone: 'America/New_York', timeZoneName: 'short' }).split(' ').pop();
+    const tzAbbr = now.toLocaleString('en-US', { timeZone: city.tz, timeZoneName: 'short' }).split(' ').pop();
     document.getElementById('clock').textContent = str + ' ' + tzAbbr;
   }
   updateClock();
@@ -658,24 +639,42 @@
     return RAIN_SVG;
   }
 
-  async function fetchBostonWeather() {
+  function applyWeather(cityName, temp, code) {
+    document.getElementById('weather').textContent = `${temp}°F · ${WMO[code] ?? 'Unknown'} in ${cityName}`;
+    const icon = getWeatherIcon(code);
+    const el = document.getElementById('weather-icon');
+    if (icon) el.innerHTML = icon;
+    else el.innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+  }
+
+  async function fetchWeather(city) {
+    if (weatherCache[city.name]) {
+      applyWeather(city.name, weatherCache[city.name].temp, weatherCache[city.name].code);
+      return;
+    }
     try {
-      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=42.3601&longitude=-71.0589&current_weather=true&temperature_unit=fahrenheit');
+      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&temperature_unit=fahrenheit`);
       if (!res.ok) throw new Error();
       const w = await res.json();
       const temp = Math.round(w.current_weather.temperature);
       const code = w.current_weather.weathercode;
-      document.getElementById('weather').textContent = `${temp}°F · ${WMO[code] ?? 'Unknown'} in Boston`;
-      const icon = getWeatherIcon(code);
-      if (icon) document.getElementById('weather-icon').innerHTML = icon;
+      weatherCache[city.name] = { temp, code };
+      applyWeather(city.name, temp, code);
     } catch {
-      try {
-        const r2 = await fetch('https://wttr.in/Boston?format=%t+%C&u');
-        document.getElementById('weather').textContent = (await r2.text()).trim() + ' in Boston';
-      } catch { document.getElementById('weather').textContent = 'Weather unavailable'; }
+      document.getElementById('weather').textContent = `Weather unavailable in ${city.name}`;
     }
   }
-  fetchBostonWeather();
+
+  function toggleCity() {
+    cityIndex = (cityIndex + 1) % CITIES.length;
+    updateClock();
+    fetchWeather(CITIES[cityIndex]);
+  }
+
+  // fetch both cities upfront so toggle is instant
+  CITIES.forEach(c => fetchWeather(c));
+  // show Boston first
+  fetchWeather(CITIES[0]);
 </script>
 </body>
 </html>
