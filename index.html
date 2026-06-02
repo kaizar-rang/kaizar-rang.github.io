@@ -28,6 +28,25 @@
       overflow-x: hidden;
     }
 
+    #mouse-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(77,157,224,0.07) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      opacity: 1;
+      left: 50%;
+      top: 50%;
+    }
+    #mouse-glow.idle {
+      transform: translate(-50%, -50%) scale(0.15);
+      opacity: 0;
+    }
+
     body::before {
       content: '';
       position: fixed;
@@ -328,6 +347,7 @@
   </style>
 </head>
 <body>
+<div id="mouse-glow" class="idle"></div>
 
 <!-- HOME -->
 <div id="page-home" class="page active">
@@ -584,6 +604,17 @@
 </div>
 
 <script>
+  // Mouse glow
+  const glow = document.getElementById('mouse-glow');
+  let idleTimer;
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+    glow.classList.remove('idle');
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => glow.classList.add('idle'), 1200);
+  });
+
   function showPage(name, el) {
     event.preventDefault();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
