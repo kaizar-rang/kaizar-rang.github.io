@@ -637,8 +637,8 @@
     { name: 'San Francisco', tz: 'America/Los_Angeles', lat: 37.7749, lon: -122.4194 },
   ];
   let cityIndex = 1;
-  const weatherCache = {};
 
+  // ─── Clock ───────────────────────────────────────────────────────────────────
   function updateClock() {
     const city = CITIES[cityIndex];
     const now = new Date();
@@ -654,6 +654,7 @@
   updateClock();
   setInterval(updateClock, 1000);
 
+  // ─── Weather ─────────────────────────────────────────────────────────────────
   const WMO = {
     0:'Clear sky', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
     45:'Foggy', 48:'Icy fog', 51:'Light drizzle', 53:'Drizzle', 55:'Heavy drizzle',
@@ -666,9 +667,10 @@
   const RAIN_SVG  = `<line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/><line x1="16" y1="13" x2="16" y2="15"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="12" y1="15" x2="12" y2="17"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>`;
   const SNOW_SVG  = `<path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="16" x2="8" y2="21"/><line x1="8" y1="21" x2="6" y2="19"/><line x1="8" y1="21" x2="10" y2="19"/><line x1="12" y1="18" x2="12" y2="23"/><line x1="12" y1="23" x2="10" y2="21"/><line x1="12" y1="23" x2="14" y2="21"/><line x1="16" y1="16" x2="16" y2="21"/><line x1="16" y1="21" x2="14" y2="19"/><line x1="16" y1="21" x2="18" y2="19"/>`;
   const STORM_SVG = `<path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/>`;
+  const SUN_SVG   = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
 
   function getWeatherIcon(code) {
-    if (code === 0 || code === 1) return null;
+    if (code === 0 || code === 1) return SUN_SVG;
     if (code <= 3 || code === 45 || code === 48) return CLOUD_SVG;
     if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return SNOW_SVG;
     if (code >= 95) return STORM_SVG;
@@ -677,42 +679,41 @@
 
   function applyWeather(cityName, temp, code) {
     document.getElementById('weather').textContent = `${temp}°F · ${WMO[code] ?? 'Unknown'} in ${cityName}`;
-    const icon = getWeatherIcon(code);
-    const el = document.getElementById('weather-icon');
-    if (icon) el.innerHTML = icon;
-    else el.innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    document.getElementById('weather-icon').innerHTML = getWeatherIcon(code);
   }
 
   async function fetchWeather(city) {
-    if (weatherCache[city.name]) {
-      applyWeather(city.name, weatherCache[city.name].temp, weatherCache[city.name].code);
-      return;
-    }
     try {
       const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current_weather=true&temperature_unit=fahrenheit`);
       if (!res.ok) throw new Error();
       const w = await res.json();
       const temp = Math.round(w.current_weather.temperature);
       const code = w.current_weather.weathercode;
-      weatherCache[city.name] = { temp, code };
-      applyWeather(city.name, temp, code);
+      // Only update the display if this is the currently shown city
+      if (city.name === CITIES[cityIndex].name) {
+        applyWeather(city.name, temp, code);
+      }
     } catch {
-      document.getElementById('weather').textContent = `Weather unavailable in ${city.name}`;
+      if (city.name === CITIES[cityIndex].name) {
+        document.getElementById('weather').textContent = `Weather unavailable in ${city.name}`;
+      }
     }
   }
 
   function toggleCity() {
     cityIndex = (cityIndex + 1) % CITIES.length;
     updateClock();
+    document.getElementById('weather').textContent = 'Fetching weather...';
     fetchWeather(CITIES[cityIndex]);
   }
 
-  // fetch both cities upfront so toggle is instant
-  CITIES.forEach(c => fetchWeather(c));
-  // show SF first
-  fetchWeather(CITIES[1]);
+  // Initial fetch
+  fetchWeather(CITIES[cityIndex]);
 
-  // GitHub last activity
+  // Refresh weather every 5 minutes (open-meteo updates every ~15 min, 5 is plenty)
+  setInterval(() => fetchWeather(CITIES[cityIndex]), 5 * 60 * 1000);
+
+  // ─── GitHub Activity ──────────────────────────────────────────────────────────
   function timeAgo(dateStr) {
     const diff = Date.now() - new Date(dateStr).getTime();
     const mins = Math.floor(diff / 60000);
@@ -737,18 +738,43 @@
       }
       const latest = events[0];
       const repo = latest.repo.name.split('/')[1];
+      const branch = latest.payload?.ref?.replace('refs/heads/', '') ?? null;
+
       let action = 'updated';
-      if (latest.type === 'PushEvent') action = 'pushed to';
-      else if (latest.type === 'CreateEvent') action = 'created';
-      else if (latest.type === 'PullRequestEvent') action = 'opened a PR on';
-      else if (latest.type === 'IssuesEvent') action = 'opened an issue on';
-      else if (latest.type === 'WatchEvent') action = 'starred';
-      document.getElementById('github-activity').textContent = `Last ${action} ${repo}, ${timeAgo(latest.created_at)}`;
+      let detail = '';
+
+      if (latest.type === 'PushEvent') {
+        action = 'pushed to';
+        const commits = latest.payload?.commits ?? [];
+        const count = commits.length;
+        const msg = commits[commits.length - 1]?.message?.split('\n')[0] ?? null;
+        if (branch && branch !== 'main' && branch !== 'master') {
+          detail = ` (${branch})`;
+        }
+        if (msg && count === 1) detail += `: "${msg}"`;
+        else if (count > 1) detail += ` · ${count} commits`;
+      } else if (latest.type === 'CreateEvent') {
+        action = 'created';
+      } else if (latest.type === 'PullRequestEvent') {
+        action = 'opened a PR on';
+      } else if (latest.type === 'IssuesEvent') {
+        action = 'opened an issue on';
+      } else if (latest.type === 'WatchEvent') {
+        action = 'starred';
+      }
+
+      document.getElementById('github-activity').textContent =
+        `Last ${action} ${repo}${detail}, ${timeAgo(latest.created_at)}`;
     } catch {
       document.getElementById('github-activity').textContent = 'GitHub activity unavailable';
     }
   }
+
+  // Initial fetch
   fetchGithubActivity();
+
+  // Refresh GitHub activity every 60 seconds
+  setInterval(fetchGithubActivity, 60 * 1000);
 </script>
 </body>
 </html>
