@@ -836,7 +836,7 @@
 
   async function fetchGithubContributions() {
     try {
-      const res = await fetch('https://github-contributions-api.jogruber.de/v4/kaizar-rang?y=last');
+      const res = await fetch(`contributions.json?t=${Date.now()}`, { cache: 'no-store' });
       if (!res.ok) throw new Error();
       const data = await res.json();
       const days = data.contributions;
@@ -851,8 +851,8 @@
   // Initial fetch
   fetchGithubContributions();
 
-  // Refresh every 10 minutes
-  setInterval(fetchGithubContributions, 10 * 60 * 1000);
+  // Refresh every 5 minutes (matches the backing data's ~15 min update cadence)
+  setInterval(fetchGithubContributions, 5 * 60 * 1000);
 </script>
 </body>
 </html>
