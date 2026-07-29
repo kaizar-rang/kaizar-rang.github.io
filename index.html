@@ -232,6 +232,34 @@
     .contrib-cell[data-level="3"] { background: var(--contrib-3); }
     .contrib-cell[data-level="4"] { background: var(--contrib-4); }
 
+    .contrib-tooltip {
+      position: fixed;
+      z-index: 20;
+      background: #1c2333;
+      color: var(--fg);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -100%) translateY(-8px);
+      transition: opacity 0.12s ease;
+    }
+    .contrib-tooltip.visible { opacity: 1; }
+    .contrib-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #1c2333;
+    }
+
     .page { display: none; }
     .page.active { display: block; }
 
@@ -461,6 +489,7 @@
             <div class="contrib-graph" id="contrib-graph"></div>
           </div>
         </div>
+        <div class="contrib-tooltip" id="contrib-tooltip"></div>
       </div>
     </div>
   </div>
@@ -799,6 +828,7 @@
 
   // ─── GitHub Contribution Graph ─────────────────────────────────────────────────
   const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const MONTH_NAMES_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
   function renderContribGraph(days) {
     const graph = document.getElementById('contrib-graph');
@@ -836,13 +866,43 @@
         cell.style.gridRow = String(i + 2);
         if (day) {
           cell.dataset.level = day.level;
-          cell.title = `${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`;
+          cell.addEventListener('mouseenter', () => showContribTooltip(cell, day));
+          cell.addEventListener('mouseleave', hideContribTooltip);
         } else {
           cell.style.visibility = 'hidden';
         }
         graph.appendChild(cell);
       });
     }
+  }
+
+  function ordinal(n) {
+    const s = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+
+  // Reparent to <body> so position:fixed is relative to the viewport —
+  // .page-content's fadeUp animation leaves a lingering transform behind
+  // (fill-mode "both"), which otherwise makes it the fixed containing block.
+  document.body.appendChild(document.getElementById('contrib-tooltip'));
+
+  function showContribTooltip(cell, day) {
+    const tooltip = document.getElementById('contrib-tooltip');
+    const date = new Date(day.date + 'T00:00:00');
+    const label = `${MONTH_NAMES_FULL[date.getMonth()]} ${ordinal(date.getDate())}`;
+    tooltip.textContent = day.count === 0
+      ? `No contributions on ${label}.`
+      : `${day.count} contribution${day.count === 1 ? '' : 's'} on ${label}.`;
+
+    const rect = cell.getBoundingClientRect();
+    tooltip.style.left = `${rect.left + rect.width / 2}px`;
+    tooltip.style.top = `${rect.top}px`;
+    tooltip.classList.add('visible');
+  }
+
+  function hideContribTooltip() {
+    document.getElementById('contrib-tooltip').classList.remove('visible');
   }
 
   async function fetchGithubContributions() {
