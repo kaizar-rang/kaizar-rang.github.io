@@ -42,13 +42,13 @@
       transform: translate(-50%, -50%) scale(1);
       pointer-events: none;
       z-index: 0;
-      transition: transform 0.8s ease, opacity 0.8s ease;
+      transition: opacity 0.8s ease;
       opacity: 1;
       left: 50%;
       top: 50%;
+      will-change: transform;
     }
     #mouse-glow.idle {
-      transform: translate(-50%, -50%) scale(0.15);
       opacity: 0;
     }
 
@@ -678,16 +678,70 @@
 </div>
 
 <script>
-  // Mouse glow
+  // Mouse glow — soft-body physics: lags behind the cursor and morphs
+  // like a yolk being dragged, instead of tracking it 1:1.
   const glow = document.getElementById('mouse-glow');
   let idleTimer;
+  let isIdle = false;
+
+  let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+  let posX = targetX, posY = targetY;
+  let velX = 0, velY = 0;
+
+  let scaleX = 1, scaleY = 1;
+  let scaleVelX = 0, scaleVelY = 0;
+  let angle = 0;
+  let idleFactor = 1;
+
+  const POS_STIFFNESS = 0.10;
+  const POS_DAMPING = 0.80;
+  const SHAPE_STIFFNESS = 0.16;
+  const SHAPE_DAMPING = 0.68;
+
   document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
+    targetX = e.clientX;
+    targetY = e.clientY;
     glow.classList.remove('idle');
+    isIdle = false;
     clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => glow.classList.add('idle'), 1200);
+    idleTimer = setTimeout(() => {
+      isIdle = true;
+      glow.classList.add('idle');
+    }, 1200);
   });
+
+  function animateGlow() {
+    // Spring the position toward the cursor — trails behind and
+    // overshoots slightly instead of snapping to it.
+    velX = (velX + (targetX - posX) * POS_STIFFNESS) * POS_DAMPING;
+    velY = (velY + (targetY - posY) * POS_STIFFNESS) * POS_DAMPING;
+    posX += velX;
+    posY += velY;
+
+    const speed = Math.hypot(velX, velY);
+
+    // Stretch along the direction of travel, squash perpendicular to
+    // it — like a soft blob being dragged through liquid.
+    const stretch = 1 + Math.min(speed * 0.05, 0.6);
+    const squash = 1 - Math.min(speed * 0.035, 0.4);
+
+    scaleVelX = (scaleVelX + (stretch - scaleX) * SHAPE_STIFFNESS) * SHAPE_DAMPING;
+    scaleVelY = (scaleVelY + (squash - scaleY) * SHAPE_STIFFNESS) * SHAPE_DAMPING;
+    scaleX += scaleVelX;
+    scaleY += scaleVelY;
+
+    if (speed > 0.4) angle = Math.atan2(velY, velX);
+
+    idleFactor += ((isIdle ? 0.15 : 1) - idleFactor) * 0.06;
+
+    glow.style.left = posX + 'px';
+    glow.style.top = posY + 'px';
+    glow.style.transform =
+      `translate(-50%, -50%) rotate(${angle}rad) scale(${scaleX * idleFactor}, ${scaleY * idleFactor})`;
+
+    requestAnimationFrame(animateGlow);
+  }
+  animateGlow();
 
   // Double-click pulse wave
   document.addEventListener('dblclick', e => {
