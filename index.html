@@ -231,6 +231,15 @@
     .contrib-cell[data-level="2"] { background: var(--contrib-2); }
     .contrib-cell[data-level="3"] { background: var(--contrib-3); }
     .contrib-cell[data-level="4"] { background: var(--contrib-4); }
+    .contrib-cell.contrib-cell--in {
+      opacity: 0;
+      transform: translateY(9px);
+      animation: contribAppear 0.35s ease forwards;
+      animation-delay: var(--contrib-delay, 0s);
+    }
+    @keyframes contribAppear {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .contrib-tooltip {
       position: fixed;
@@ -830,8 +839,11 @@
   const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const MONTH_NAMES_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+  let contribGraphAnimated = false;
+
   function renderContribGraph(days) {
     const graph = document.getElementById('contrib-graph');
+    const animate = !contribGraphAnimated;
     graph.innerHTML = '';
 
     // Pad the front so the first column starts on Sunday, like GitHub's grid.
@@ -868,12 +880,18 @@
           cell.dataset.level = day.level;
           cell.addEventListener('mouseenter', () => showContribTooltip(cell, day));
           cell.addEventListener('mouseleave', hideContribTooltip);
+          if (animate) {
+            cell.classList.add('contrib-cell--in');
+            cell.style.setProperty('--contrib-delay', `${(w + i) * 12}ms`);
+          }
         } else {
           cell.style.visibility = 'hidden';
         }
         graph.appendChild(cell);
       });
     }
+
+    contribGraphAnimated = true;
   }
 
   function ordinal(n) {
