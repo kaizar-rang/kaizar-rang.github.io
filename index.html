@@ -191,6 +191,17 @@
       font-size: 0.82rem; color: var(--muted); margin-bottom: 0.55rem;
     }
     .contrib-scroll { overflow-x: auto; padding-bottom: 2px; }
+    .contrib-body { display: flex; align-items: flex-start; gap: 4px; }
+    .contrib-daylabels {
+      display: grid;
+      grid-template-rows: 13px repeat(7, 11px);
+      gap: 3px;
+      flex-shrink: 0;
+      font-size: 0.56rem;
+      line-height: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
     .contrib-graph {
       display: inline-grid;
       grid-auto-flow: column;
@@ -437,7 +448,12 @@
       <div class="contrib-wrap">
         <div class="contrib-label" id="contrib-label">Loading GitHub contributions...</div>
         <div class="contrib-scroll">
-          <div class="contrib-graph" id="contrib-graph"></div>
+          <div class="contrib-body">
+            <div class="contrib-daylabels" aria-hidden="true">
+              <span></span><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="contrib-graph" id="contrib-graph"></div>
+          </div>
         </div>
       </div>
     </div>
