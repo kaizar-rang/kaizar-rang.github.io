@@ -52,6 +52,23 @@
       opacity: 0;
     }
 
+    .pulse-wave {
+      position: fixed;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(126,200,247,0.85);
+      box-shadow: 0 0 30px 6px rgba(77,157,224,0.45);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse-expand 0.9s ease-out forwards;
+    }
+    @keyframes pulse-expand {
+      from { width: 0; height: 0; opacity: 0.9; }
+      to   { width: 480px; height: 480px; opacity: 0; }
+    }
+
     body::before {
       content: '';
       position: fixed;
@@ -648,6 +665,16 @@
     glow.classList.remove('idle');
     clearTimeout(idleTimer);
     idleTimer = setTimeout(() => glow.classList.add('idle'), 1200);
+  });
+
+  // Double-click pulse wave
+  document.addEventListener('dblclick', e => {
+    const pulse = document.createElement('div');
+    pulse.className = 'pulse-wave';
+    pulse.style.left = e.clientX + 'px';
+    pulse.style.top = e.clientY + 'px';
+    document.body.appendChild(pulse);
+    pulse.addEventListener('animationend', () => pulse.remove());
   });
 
   function showPage(name, el) {
