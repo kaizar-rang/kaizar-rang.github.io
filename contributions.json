@@ -1837,11 +1837,16 @@
     },
     {
       "date": "2026-07-29",
-      "count": 32,
+      "count": 34,
       "level": 4
+    },
+    {
+      "date": "2026-07-30",
+      "count": 0,
+      "level": 0
     }
   ],
   "total": {
-    "lastYear": 213
+    "lastYear": 215
   }
 }
