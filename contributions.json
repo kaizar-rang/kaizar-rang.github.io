@@ -1852,11 +1852,11 @@
     },
     {
       "date": "2026-08-01",
-      "count": 0,
-      "level": 0
+      "count": 14,
+      "level": 2
     }
   ],
   "total": {
-    "lastYear": 271
+    "lastYear": 285
   }
 }
