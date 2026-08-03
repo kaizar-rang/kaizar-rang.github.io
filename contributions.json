@@ -1827,11 +1827,11 @@
     },
     {
       "date": "2026-08-03",
-      "count": 17,
-      "level": 2
+      "count": 23,
+      "level": 3
     }
   ],
   "total": {
-    "lastYear": 306
+    "lastYear": 312
   }
 }
