@@ -1822,11 +1822,16 @@
     },
     {
       "date": "2026-08-30",
+      "count": 13,
+      "level": 2
+    },
+    {
+      "date": "2026-08-31",
       "count": 0,
       "level": 0
     }
   ],
   "total": {
-    "lastYear": 572
+    "lastYear": 585
   }
 }
