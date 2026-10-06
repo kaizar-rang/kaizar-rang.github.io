@@ -356,59 +356,131 @@
     }
 
     /* RESUME */
-    .resume-section { margin-bottom: 2rem; }
+    #page-resume .page-wrap {
+      padding-top: clamp(2rem, 7vh, 4.5rem);
+      padding-bottom: 3rem;
+    }
+    .resume-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem 1.5rem; flex-wrap: wrap; margin-bottom: 1.6rem;
+    }
+    .resume-top .section-title { margin-bottom: 0; }
     .resume-heading {
-      font-size: 0.69rem; font-weight: 600;
+      font-size: 0.66rem; font-weight: 600;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1rem;
-      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+      color: var(--accent); margin-bottom: 0.8rem;
+      padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
     }
 
-    .exp-card {
-      background: rgba(77,157,224,0.28);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.2rem 1.4rem;
-      margin-bottom: 0.85rem;
-      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    /* EDUCATION */
+    .edu-row { margin-bottom: 1.9rem; }
+    .edu-head {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      margin-bottom: 0.15rem;
     }
-    .exp-card:hover {
-      border-color: rgba(77,157,224,0.45);
-      background: rgba(77,157,224,0.36);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    .edu-school { font-size: 0.95rem; font-weight: 600; color: var(--fg); }
+    .edu-degree { font-size: 0.8rem; color: var(--accent2); opacity: 0.85; margin-bottom: 0.18rem; }
+    .edu-meta   { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .edu-date   {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 0.71rem; color: var(--muted); opacity: 0.8;
+      white-space: nowrap; font-variant-numeric: tabular-nums;
     }
-    .exp-header {
-      display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: 0.2rem;
+
+    /* TWO-COLUMN BODY */
+    .resume-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      gap: 1.75rem 3rem;
+      align-items: start;
     }
-    .exp-title { font-size: 0.95rem; font-weight: 600; color: var(--fg); }
-    .exp-date { font-size: 0.78rem; color: var(--muted); white-space: nowrap; margin-left: 1rem; }
-    .exp-org { font-size: 0.82rem; color: var(--accent2); margin-bottom: 0.3rem; }
-    .exp-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+    /* EXPERIENCE TIMELINE */
+    .timeline { position: relative; padding-left: 1.15rem; }
+    .timeline::before {
+      content: ""; position: absolute; left: 3px;
+      /* starts at the first dot's centre (label block + dot offset) and ends at the last */
+      top: calc(1.45rem + 0.38rem + 3px);
+      bottom: 0.52rem;
+      width: 1px;
+      background: linear-gradient(to bottom,
+        rgba(77,157,224,0.6) 0%, rgba(77,157,224,0.35) 65%, rgba(77,157,224,0.08) 100%);
+    }
+    .tl-label {
+      font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--muted); opacity: 0.6;
+      height: 0.95rem; line-height: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .tl-label + .tl-item { margin-top: 0; }
+    .tl-group + .tl-group { margin-top: 1.15rem; }
+    .tl-item { position: relative; padding-bottom: 0.95rem; }
+    .tl-group:last-child .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before {
+      content: ""; position: absolute; left: -1.15rem; top: 0.38rem;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--bg);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .tl-item:hover::before { background: var(--accent2); transform: scale(1.25); }
+    .tl-head {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      white-space: nowrap; margin-bottom: 0.12rem;
+    }
+    .tl-title {
+      font-size: 0.89rem; font-weight: 600; color: var(--fg);
+      overflow: hidden; text-overflow: ellipsis;
+      transition: color 0.2s;
+    }
+    .tl-item:hover .tl-title { color: var(--accent2); }
+    .tl-date {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 0.71rem; color: var(--muted); opacity: 0.8;
+      font-variant-numeric: tabular-nums;
+    }
+    .tl-org  { font-size: 0.78rem; color: var(--accent2); opacity: 0.85; margin-bottom: 0.18rem; }
+    .tl-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .tl-item.tl-pending::before {
+      background: var(--bg2);
+      box-shadow: 0 0 0 3px var(--bg), inset 0 0 0 1px rgba(138,155,191,0.55);
+    }
+    .tl-item.tl-pending:hover::before { background: var(--bg2); transform: none; }
+    .tl-none { font-size: 0.78rem; color: var(--muted); opacity: 0.45; font-style: italic; }
 
     /* SKILLS */
-    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
-    .skill-category { margin-bottom: 1.1rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.35rem; }
+    .skill-category { margin-bottom: 0.9rem; }
+    .skill-category:last-child { margin-bottom: 0; }
     .skill-label {
       display: block;
-      font-size: 0.78rem; font-weight: 500;
-      color: var(--fg); margin-bottom: 0.45rem;
+      font-size: 0.74rem; font-weight: 500;
+      color: var(--fg); margin-bottom: 0.3rem;
     }
     .tag {
-      font-size: 0.71rem; padding: 0.2rem 0.55rem; border-radius: 5px;
+      font-size: 0.68rem; padding: 0.15rem 0.45rem; border-radius: 5px;
       background: rgba(77,157,224,0.09); color: var(--accent);
       border: 1px solid rgba(77,157,224,0.18);
+      line-height: 1.5;
     }
 
     .resume-download {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-bottom: 2.5rem; padding: 0.6rem 1.2rem; border-radius: 9px;
+      padding: 0.5rem 1rem; border-radius: 8px;
       background: rgba(77,157,224,0.1); border: 1px solid rgba(77,157,224,0.28);
-      color: var(--accent); font-size: 0.85rem; text-decoration: none;
+      color: var(--accent); font-size: 0.8rem; text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
     }
     .resume-download:hover { background: rgba(77,157,224,0.18); border-color: rgba(77,157,224,0.45); }
+
+    @media (max-width: 760px) {
+      .resume-grid { grid-template-columns: 1fr; gap: 1.6rem; }
+      .tl-head { white-space: normal; flex-wrap: wrap; }
+      .tl-date { margin-left: 0; }
+      .edu-head { flex-wrap: wrap; }
+      .edu-date { margin-left: 0; }
+    }
 
     /* AWARDS */
     .award-tier { margin-bottom: 2rem; margin-top: 0.5rem; }
@@ -582,79 +654,87 @@
         <a href="#" class="active" onclick="showPage('resume', this)">Resume</a>
         <a href="#" onclick="showPage('awards', this)">Awards</a>
       </nav>
-      <div class="section-title">Resume</div>
-      <a class="resume-download" href="resume.pdf" target="_blank">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
-        Download PDF
-      </a>
-
-      <div class="resume-section">
-        <div class="resume-heading">Education</div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">University of California, Berkeley</div>
-            <div class="exp-date">2025 – 2029</div>
-          </div>
-          <div class="exp-org">B.S. Computer Science · Minors: Public Health, Bioengineering</div>
-          <div class="exp-desc">Premed track</div>
-        </div>
+      <div class="resume-top">
+        <div class="section-title">Resume</div>
+        <a class="resume-download" href="resume.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4v-2h14v2H5z"/></svg>
+          Download PDF
+        </a>
       </div>
 
-      <div class="resume-section">
-        <div class="resume-heading">Research Experience</div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">Neurology AI Research - CDAC</div>
-            <div class="exp-date">Jun 2026 – Present</div>
-          </div>
-          <div class="exp-org">Stanford University</div>
-          <div class="exp-desc">Agentic NLP for clinical report extraction &amp; imaging annotation.</div>
+      <div class="resume-heading">Education</div>
+      <div class="edu-row">
+        <div class="edu-head">
+          <span class="edu-school">University of California, Berkeley</span>
+          <span class="edu-date">2025 &ndash; 2029</span>
         </div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">Neuroradiology Research - Yang Lab</div>
-            <div class="exp-date">Jun 2026 – Present</div>
-          </div>
-          <div class="exp-org">UCSF Department of Radiology &amp; Biomedical Imaging</div>
-          <div class="exp-desc">Generative inpainting models for brain MRI tissue reconstruction.</div>
-        </div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">Neurosurgery AI Research - Duke NSU</div>
-            <div class="exp-date">May 2024 – May 2025</div>
-          </div>
-          <div class="exp-org">Duke University School of Medicine</div>
-          <div class="exp-desc">ML analysis of brain tumor radiomics &amp; topology.</div>
-        </div>
+        <div class="edu-degree">B.S. Computer Science &middot; Minors: Public Health, Bioengineering</div>
+        <div class="edu-meta">Premed track</div>
       </div>
 
-      <div class="resume-section">
-        <div class="resume-heading">Industry Experience</div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">Software Engineer</div>
-            <div class="exp-date">Mar 2026 – May 2026</div>
-          </div>
-          <div class="exp-org">Visa</div>
-          <div class="exp-desc">Transactional Banking AI Agents.</div>
-        </div>
-        <div class="exp-card">
-          <div class="exp-header">
-            <div class="exp-title">Machine Learning Engineer</div>
-            <div class="exp-date">Sep 2025 – Dec 2025</div>
-          </div>
-          <div class="exp-org">Amazon Web Services (AWS)</div>
-          <div class="exp-desc">Simulating novel ML research on AWS Trainium.</div>
-        </div>
-      </div>
+      <div class="resume-grid">
+        <div>
+          <div class="resume-heading">Experience</div>
+          <div class="timeline">
+            <div class="tl-group">
+              <div class="tl-label">Research</div>
+              <div class="tl-item">
+                <div class="tl-head">
+                  <span class="tl-title">Neurology AI Research &middot; CDAC</span>
+                  <span class="tl-date">Jun 2026 &ndash; Present</span>
+                </div>
+                <div class="tl-org">Stanford University</div>
+                <div class="tl-desc">Agentic NLP for clinical report extraction &amp; imaging annotation.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-head">
+                  <span class="tl-title">Neuroradiology Research &middot; Yang Lab</span>
+                  <span class="tl-date">Jun 2026 &ndash; Present</span>
+                </div>
+                <div class="tl-org">UCSF Radiology &amp; Biomedical Imaging</div>
+                <div class="tl-desc">Generative inpainting models for brain MRI tissue reconstruction.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-head">
+                  <span class="tl-title">Neurosurgery AI Research &middot; Duke NSU</span>
+                  <span class="tl-date">May 2024 &ndash; May 2025</span>
+                </div>
+                <div class="tl-org">Duke University School of Medicine</div>
+                <div class="tl-desc">ML analysis of brain tumor radiomics &amp; topology.</div>
+              </div>
+            </div>
 
-      <div class="resume-section">
-        <div class="resume-heading">Clinical Experience</div>
-        <div class="exp-desc" style="font-style:italic; opacity:0.45; padding: 0.25rem 0;">None yet — in progress.</div>
-      </div>
+            <div class="tl-group">
+              <div class="tl-label">Industry</div>
+              <div class="tl-item">
+                <div class="tl-head">
+                  <span class="tl-title">Software Engineer</span>
+                  <span class="tl-date">Mar 2026 &ndash; May 2026</span>
+                </div>
+                <div class="tl-org">Visa</div>
+                <div class="tl-desc">Transactional banking AI agents.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-head">
+                  <span class="tl-title">Machine Learning Engineer</span>
+                  <span class="tl-date">Sep 2025 &ndash; Dec 2025</span>
+                </div>
+                <div class="tl-org">Amazon Web Services (AWS)</div>
+                <div class="tl-desc">Simulating novel ML research on AWS Trainium.</div>
+              </div>
+            </div>
 
-      <div class="resume-section">
-        <div class="resume-heading">Skills</div>
+            <div class="tl-group">
+              <div class="tl-label">Clinical</div>
+              <div class="tl-item tl-pending">
+                <div class="tl-none">None yet &mdash; in progress.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="resume-heading">Skills</div>
         <div class="skill-category">
           <span class="skill-label">Interpersonal</span>
           <div class="tag-list"><span class="tag">Public Speaking</span><span class="tag">Research Communication</span><span class="tag">Conference Presentations</span><span class="tag">Technical Writing</span><span class="tag">Mentorship</span><span class="tag">Cross-disciplinary Collaboration</span><span class="tag">Leadership</span><span class="tag">Science Communication</span><span class="tag">Grant Writing</span></div>
@@ -674,6 +754,7 @@
         <div class="skill-category">
           <span class="skill-label">Clinical Certifications</span>
           <div class="tag-list"><span class="tag">EMT-B</span><span class="tag">Bloodborne Pathogen Management</span><span class="tag">Nebulizer</span><span class="tag">Naloxone</span><span class="tag">CPR</span><span class="tag">Glucometer</span></div>
+        </div>
         </div>
       </div>
     </div>
