@@ -1837,11 +1837,16 @@
     },
     {
       "date": "2026-11-11",
+      "count": 18,
+      "level": 3
+    },
+    {
+      "date": "2026-11-12",
       "count": 0,
       "level": 0
     }
   ],
   "total": {
-    "lastYear": 1255
+    "lastYear": 1273
   }
 }
