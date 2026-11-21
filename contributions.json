@@ -1847,11 +1847,16 @@
     },
     {
       "date": "2026-11-20",
+      "count": 4,
+      "level": 1
+    },
+    {
+      "date": "2026-11-21",
       "count": 0,
       "level": 0
     }
   ],
   "total": {
-    "lastYear": 1392
+    "lastYear": 1396
   }
 }
